@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONFIDENTIAL :: SECRET MATCH VIBE 💖</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,800;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace']
+                    },
+                    colors: {
+                        pastel: {
+                            pink: '#ff85a2',
+                            rose: '#ffb3c1',
+                            bg1: '#fff0f5',
+                            bg2: '#ffd1dc',
+                            bg3: '#ffe4e1',
+                            purple: '#c77dff',
+                            text: '#4a2e35'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- ==========================================
+         PART 1: STYLESHEET (CSS)
+         ========================================== -->
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffd1dc 50%, #ffe4e1 100%);
+            color: #4a2e35;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Bright Soft Glassmorphism */
+        .glass-box-bright {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(255, 133, 162, 0.2), 
+                        inset 0 1px 2px rgba(255, 255, 255, 0.9);
+        }
+
+        .neon-glow-pastel {
+            box-shadow: 0 10px 25px rgba(255, 112, 150, 0.4);
+        }
+
+        /* Bright Holographic Ticket */
+        .holo-card-bright {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,240,245,0.7) 100%);
+            backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+
+        .holo-card-bright::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(115deg, transparent 20%, rgba(255, 182, 193, 0.35) 40%, rgba(199, 125, 255, 0.35) 60%, transparent 80%);
+            opacity: 0.8;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* Typewriter Cursor */
+        .cursor-blink::after {
+            content: '💗';
+            animation: blink 0.8s infinite;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Subtle Heart Beat Animation */
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-heart-pulse {
+            animation: heartPulse 1.8s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center relative font-sans">
+
+    <!-- Interactive Pastel Canvas Particle & Bubble Field -->
+    <canvas id="canvas-bg" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Audio Toggle -->
+    <button id="sound-btn" onclick="toggleAudio()" class="fixed top-6 right-6 z-50 glass-box-bright px-4 py-2 rounded-full font-mono text-xs text-pink-600 border border-white flex items-center gap-2 hover:bg-white/80 transition shadow-sm">
+        <i id="sound-icon" class="fas fa-volume-high"></i>
+        <span id="sound-txt">AUDIO: ON</span>
+    </button>
+
+    <!-- ==========================================
+         PART 2: HTML STRUCTURE
+         ========================================== -->
+    <main class="relative z-10 w-full max-w-lg px-4">
+        
+        <!-- MAIN CARD -->
+        <div id="main-card" class="glass-box-bright rounded-3xl p-7 sm:p-10 text-center transition-all duration-700 ease-out transform">
+            
+            <!-- Cute Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-200 text-pink-600 font-mono text-xs font-semibold mb-6 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-pink-500 animate-ping"></span>
+                VIBE MATCHING DETECTED 🌸
+            </div>
+
+            <!-- Header Dynamic Typewriter -->
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-pink-900 mb-4 tracking-tight leading-snug">
+                <span id="typewriter-text" class="cursor-blink"></span>
+            </h1>
+
+            <p class="text-pink-800/80 text-sm sm:text-base mb-8 font-medium leading-relaxed">
+                Không sến súa, không drama. Thuật toán vũ trụ bảo vibe này sinh ra là dành riêng cho hai ta đó! ✨
+            </p>
+
+            <!-- ACTION BUTTONS AREA -->
+            <div id="action-area" class="relative min-h-[120px] flex items-center justify-center gap-4">
+                
+                <!-- YES BUTTON (CHỐT DEAL) -->
+                <button id="btn-yes" onclick="dealAccepted()" class="w-full sm:w-auto bg-gradient-to-r from-pink-400 via-rose-400 to-purple-400 hover:brightness-105 text-white font-extrabold font-mono text-base py-4 px-9 rounded-2xl neon-glow-pastel transition-all transform hover:scale-105 active:scale-95 z-20 animate-heart-pulse">
+                    CHỐT DEAL ⚡
+                </button>
+
+                <!-- NO BUTTON (SMOOTH PHYSICS DODGE) -->
+                <button id="btn-pass" class="w-full sm:w-auto glass-box-bright text-pink-700 font-mono text-sm py-4 px-7 rounded-2xl border border-pink-200 transition-colors whitespace-nowrap z-10">
+                    Pass ❌
+                </button>
+            </div>
+        </div>
+
+
+        <!-- SUCCESS HOLO TICKET CARD (Hidden initially) -->
+        <div id="success-card" class="hidden glass-box-bright rounded-3xl p-7 sm:p-9 text-center transition-all duration-700 ease-out transform scale-90 opacity-0">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700 font-mono text-xs font-bold mb-4 shadow-sm">
+                <i class="fas fa-sparkles"></i> DEAL CONFIRMED! 💕
+            </div>
+
+            <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-purple-600 to-rose-500 mb-2">
+                EXCELLENT CHOICE! 🥂
+            </h2>
+            <p class="text-pink-800/80 text-xs sm:text-sm mb-6">Chuyến xe hạnh phúc pastel đã sẵn sàng khởi hành!</p>
+
+            <!-- Holographic Bright Ticket Component -->
+            <div id="tilt-ticket" class="holo-card-bright rounded-2xl p-6 text-left shadow-xl mb-6 cursor-pointer">
+                <div class="flex justify-between items-center border-b border-pink-200/60 pb-3 mb-4">
+                    <div>
+                        <span class="text-[10px] font-mono text-pink-500 uppercase tracking-widest font-bold block">VIP PASS // UNLIMITED CARE</span>
+                        <h3 class="text-lg font-extrabold text-pink-900 tracking-wide">VÉ HẸN HÒ ĐẶC QUYỀN 🎫</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-pink-100 border border-pink-300 flex items-center justify-center text-pink-500 shadow-sm">
+                        <i class="fas fa-heart text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-2.5 font-mono text-xs text-pink-950">
+                    <div class="flex justify-between">
+                        <span class="text-pink-600/70">ĐỐI TÁC VIP:</span>
+                        <span class="text-pink-900 font-extrabold">Cậu đó xinh đẹp ơi ✨</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-pink-600/70">LỊCH TRÌNH:</span>
+                        <span class="text-purple-700 font-bold">Trà sữa, xem phim & dạo phố ☕🎬</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-pink-600/70">HẠN SỬ DỤNG:</span>
+                        <span class="text-emerald-600 font-bold">Vĩnh viễn (No Expiration)</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-dashed border-pink-200 flex justify-between items-center text-[10px] font-mono text-pink-500 font-semibold">
+                    <span>CODE: #GENZ-PASTEL-MATCH</span>
+                    <span class="text-pink-600 animate-pulse">STATUS: ACTIVE 💖</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 font-mono text-xs">
+                <button onclick="sendConfirmation()" class="flex-1 bg-gradient-to-r from-pink-400 to-rose-400 hover:brightness-105 text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                    <i class="fab fa-telegram-plane text-sm"></i> GỬI XÁC NHẬN NGAY
+                </button>
+                <button onclick="location.reload()" class="glass-box-bright text-pink-800 hover:bg-white py-3.5 px-4 rounded-xl transition">
+                    Replay 🔄
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+         PART 3: APPLICATION LOGIC (JAVASCRIPT)
+         ========================================== -->
+    <script>
+        // ================= AUDIO SYNTHESIZER (Web Audio API) =================
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+        }
+
+        function playSynthSound(type) {
+            if (!soundEnabled) return;
+            initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'hover') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(900, now + 0.04);
+                gain.gain.setValueAtTime(0.06, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.04);
+                osc.start(now);
+                osc.stop(now + 0.04);
+            } else if (type === 'dodge') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(450, now);
+                osc.frequency.linearRampToValueAtTime(250, now + 0.08);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'success') {
+                // Bright Musical Victory Chimes
+                [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'sine';
+                    o.frequency.setValueAtTime(freq, now + i * 0.07);
+                    g.gain.setValueAtTime(0.1, now + i * 0.07);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.4);
+                    o.start(now + i * 0.07);
+                    o.stop(now + i * 0.07 + 0.4);
+                });
+            }
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('sound-txt').innerText = soundEnabled ? 'AUDIO: ON' : 'AUDIO: OFF';
+            document.getElementById('sound-icon').className = soundEnabled ? 'fas fa-volume-high' : 'fas fa-volume-xmark';
+            if (soundEnabled) playSynthSound('hover');
+        }
+
+        // ================= TYPEWRITER EFFECT =================
+        const titleText = "Chốt deal cùng tớ chứ?";
+        const typewriterEl = document.getElementById('typewriter-text');
+        let charIdx = 0;
+
+        function typeEffect() {
+            if (charIdx < titleText.length) {
+                typewriterEl.innerText += titleText.charAt(charIdx);
+                charIdx++;
+                setTimeout(typeEffect, 60);
+            }
+        }
+        setTimeout(typeEffect, 300);
+
+        // ================= CANVAS PASTEL HEARTS & BUBBLES =================
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let burstParticles = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const updateMouse = (e) => {
+            mouse.x = e.clientX || (e.touches && e.touches[0].clientX);
+            mouse.y = e.clientY || (e.touches && e.touches[0].clientY);
+        };
+        window.addEventListener('mousemove', updateMouse);
+        window.addEventListener('touchmove', updateMouse);
+
+        class PastelBubble {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 10 + 6;
+                this.speedY = Math.random() * 1.2 + 0.4;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.colors = ['rgba(255,182,193,0.6)', 'rgba(255,192,203,0.6)', 'rgba(221,160,221,0.5)', 'rgba(255,228,225,0.7)'];
+                this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.isHeart = Math.random() > 0.4;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+
+                if (this.y < -20) {
+                    this.reset();
+                }
+
+                // Interactive gentle force
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                    let angle = Math.atan2(dy, dx);
+                    this.x -= Math.cos(angle) * 1.5;
+                    this.y -= Math.sin(angle) * 1.5;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                if (this.isHeart) {
+                    // Draw Heart shape
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.beginPath();
+                    let s = this.size / 10;
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-5 * s, -5 * s, -10 * s, 2 * s, 0, 10 * s);
+                    ctx.bezierCurveTo(10 * s, 2 * s, 5 * s, -5 * s, 0, 0);
+                    ctx.fill();
+                    ctx.restore();
+                } else {
+                    // Draw Bubble
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 12000);
+            for (let i = 0; i < count; i++) {
+                particles.push(new PastelBubble());
+            }
+        }
+        initParticles();
+
+        // Explosive burst particles when deal accepted
+        class BurstParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 6 + 3;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 10 + 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.colors = ['#ff85a2', '#ffb3c1', '#c77dff', '#ffffff', '#ffd1dc'];
+                this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.12; // Gravity
+                this.vx *= 0.96;
+                this.vy *= 0.96;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function renderLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            burstParticles.forEach((bp, index) => {
+                bp.update();
+                bp.draw();
+                if (bp.alpha <= 0) burstParticles.splice(index, 1);
+            });
+
+            requestAnimationFrame(renderLoop);
+        }
+        renderLoop();
+
+
+        // ================= SMOOTH PHYSICS DODGE FOR "PASS" BUTTON =================
+        const btnPass = document.getElementById('btn-pass');
+
+        let passPos = { x: 0, y: 0 };
+        let targetPos = { x: 0, y: 0 };
+        let dodgeIndex = 0;
+
+        const passTexts = [
+            "Pass ❌",
+            "Ủa alo??? 😳",
+            "Pass sao đượccc 👻",
+            "Nút này bị bùa rồi! ✨",
+            "Bấm nút bên trái kìa 💖",
+            "Đừng cố nữa mà 😜"
+        ];
+
+        // Smooth physics loop (Lerp)
+        function updatePassPhysics() {
+            passPos.x += (targetPos.x - passPos.x) * 0.15;
+            passPos.y += (targetPos.y - passPos.y) * 0.15;
+            btnPass.style.transform = `translate(${passPos.x}px, ${passPos.y}px)`;
+            requestAnimationFrame(updatePassPhysics);
+        }
+        updatePassPhysics();
+
+        function checkDodgeDistance(e) {
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            if (!clientX || !clientY) return;
+
+            const rect = btnPass.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
+
+            const dist = Math.hypot(clientX - btnCenterX, clientY - btnCenterY);
+
+            if (dist < 90) {
+                playSynthSound('dodge');
+                dodgeIndex = (dodgeIndex + 1) % passTexts.length;
+                btnPass.innerText = passTexts[dodgeIndex];
+
+                // Calculate flee direction away from cursor
+                const angle = Math.atan2(btnCenterY - clientY, btnCenterX - clientX);
+                const offset = 130 + Math.random() * 50;
+                
+                targetPos.x += Math.cos(angle) * offset;
+                targetPos.y += Math.sin(angle) * offset;
+
+                // Keep within reasonable bounds inside container
+                const maxRange = 160;
+                targetPos.x = Math.max(-maxRange, Math.min(maxRange, targetPos.x));
+                targetPos.y = Math.max(-90, Math.min(90, targetPos.y));
+            }
+        }
+
+        window.addEventListener('mousemove', checkDodgeDistance);
+        window.addEventListener('touchmove', checkDodgeDistance);
+
+
+        // ================= DEAL ACCEPTED & HOLO TILT EFFECT =================
+        function dealAccepted() {
+            playSynthSound('success');
+
+            // Trigger burst of particles from screen center
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            for (let i = 0; i < 120; i++) {
+                burstParticles.push(new BurstParticle(centerX, centerY));
+            }
+
+            const mainCard = document.getElementById('main-card');
+            const successCard = document.getElementById('success-card');
+
+            mainCard.classList.add('scale-90', 'opacity-0');
+            setTimeout(() => {
+                mainCard.classList.add('hidden');
+                successCard.classList.remove('hidden');
+                setTimeout(() => {
+                    successCard.classList.remove('scale-90', 'opacity-0');
+                    successCard.classList.add('scale-100', 'opacity-100');
+                }, 50);
+            }, 500);
+        }
+
+        // 3D Holographic Card Tilt Effect
+        const tiltCard = document.getElementById('tilt-ticket');
+        if (tiltCard) {
+            tiltCard.addEventListener('mousemove', (e) => {
+                const rect = tiltCard.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const tiltX = (y / rect.height) * -16;
+                const tiltY = (x / rect.width) * 16;
+                tiltCard.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            });
+
+            tiltCard.addEventListener('mouseleave', () => {
+                tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        }
+
+        function sendConfirmation() {
+            playSynthSound('hover');
+            window.open('https://zalo.me/', '_blank');
+        }
+    </script>
+</body>
+</html>
